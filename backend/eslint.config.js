@@ -7,7 +7,8 @@ const jsConfig = {
   },
   rules: {
     semi: ['error', 'always'],
-    quotes: ['error', 'single'],
+    // Allow template literals for multi-line SQL and docs while enforcing single quotes elsewhere
+    quotes: ['error', 'single', { allowTemplateLiterals: true, avoidEscape: true }],
   },
 };
 
