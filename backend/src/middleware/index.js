@@ -1,4 +1,9 @@
-// This file will export middleware as the application grows
+const { requestContext } = require('./requestContext');
+const { attachUser, requireAuth } = require('./auth');
+
+// This file exports global and route-specific middleware
 module.exports = {
-  // Add your middleware here
+  requestContext,
+  attachUser,
+  requireAuth,
 };

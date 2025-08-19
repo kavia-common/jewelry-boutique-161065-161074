@@ -1,14 +1,16 @@
+require('dotenv').config();
 const cors = require('cors');
 const express = require('express');
 const routes = require('./routes');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpec = require('../swagger');
+const { requestContext, attachUser } = require('./middleware');
 
 // Initialize express app
 const app = express();
 
 app.use(cors({
-  origin: '*',
+  origin: process.env.CORS_ORIGIN || '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
@@ -40,6 +42,10 @@ app.use('/docs', swaggerUi.serve, (req, res, next) => {
 
 // Parse JSON request body
 app.use(express.json());
+
+// Global middleware
+app.use(requestContext);
+app.use(attachUser);
 
 // Mount routes
 app.use('/', routes);
